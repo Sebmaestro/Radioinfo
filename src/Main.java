@@ -1,5 +1,10 @@
+import model.Channels;
+import view.Gui;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("hello");
+        Channels c = new Channels();
+        c.tjena("http://api.sr.se/api/v2/channels?format=json");
+        //Gui gui = new Gui();
     }
 }
