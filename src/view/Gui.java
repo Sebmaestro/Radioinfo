@@ -122,7 +122,7 @@ public class Gui extends JFrame{
         addMouseListener();
 
         pane = new JScrollPane(table);
-        pane.setPreferredSize(new Dimension(1000, 500));
+        pane.setPreferredSize(new Dimension(1000, 450));
 
         return pane;
     }

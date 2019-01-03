@@ -4,7 +4,6 @@ import model.Channel;
 import model.Parser;
 import model.Program;
 import model.TimeAndDate;
-import org.json.simple.JSONArray;
 import view.Gui;
 
 import java.awt.event.ActionEvent;
@@ -15,7 +14,6 @@ import java.util.List;
 public class Controller {
     private Gui gui;
     private Parser parser;
-    private JSONArray json;
     private List<Channel> channelList;
     private List<Program> programList;
 
