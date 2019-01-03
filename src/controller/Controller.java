@@ -1,24 +1,20 @@
 package controller;
 
-import model.Channel;
-import model.Parser;
-import model.Program;
-import model.TimeAndDate;
+import model.*;
 import view.Gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Controller {
     private Gui gui;
     private Parser parser;
     private List<Channel> channelList;
-    private List<Program> programList;
+    //private List<Program> currentDateList;
 
     public Controller() {
-        programList = new ArrayList<>();
+        //currentDateList = new ArrayList<>();
         parser = new Parser();
         channelList = parser.parseChannels("http://api.sr.se/api/v2/channels");
         gui = new Gui(setChannelNames());
@@ -51,13 +47,29 @@ public class Controller {
                     id = channelList.get(i).getID();
                 }
             }
-            TimeAndDate x = new TimeAndDate();
-            String date = x.getCurrentDate();
-            String time = x.getCurrentTime();
-            programList = parser.parseTableau("http://api.sr.se/api/v2/scheduledepisodes?channelid="+id+"&date="+
-                    date);
 
-            gui.modifyTable(programList);
+            TimeAndDate x = new TimeAndDate();
+            String yesterdaysDate = x.getYesterdaysDate();
+            String todaysDate = x.getCurrentDate();
+            String tomorrowsDate = x.getTomorrowsDate();
+            String time = x.getCurrentTime();
+
+            List<Program> yesterdaysDateList = parser.parseTableau(
+                    "http://api.sr.se/api/v2/scheduledepisodes?channelid="+
+                            id+"&pagination=false&date="+yesterdaysDate);
+
+            List<Program> currentDateList = parser.parseTableau(
+                    "http://api.sr.se/api/v2/scheduledepisodes?channelid="+
+                            id+"&pagination=false&date="+todaysDate);
+
+            List<Program> tomorrowsDateList = parser.parseTableau(
+                    "http://api.sr.se/api/v2/scheduledepisodes?channelid="+
+                    id+"&pagination=false&date="+tomorrowsDate);
+
+            ListSorter sorter = new ListSorter();
+            List<Program> finalList = sorter.sort(time, yesterdaysDateList, currentDateList, tomorrowsDateList);
+
+            gui.modifyTable(finalList);
             gui.refreshGui();
 
         }, channel);

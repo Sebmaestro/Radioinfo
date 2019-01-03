@@ -7,7 +7,11 @@ public class Main {
         //c.parseChannels("http://api.sr.se/api/v2/channels?format=json");
         //Gui gui = new Gui();
         new Controller();
-        //new TimeAndDate().getCurrentTime();
-        //new TimeAndDate().getCurrentDate();
+        /*
+        new TimeAndDate().getCurrentTime();
+        new TimeAndDate().getCurrentDate();
+        new TimeAndDate().getTomorrowsDate();
+        new TimeAndDate().getYesterdaysDate();
+        */
     }
 }

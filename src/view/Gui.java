@@ -91,17 +91,19 @@ public class Gui extends JFrame{
                 System.out.println(row);
                 System.out.println(col);
 
-                if (col == 0) {
+                if (col == 0 || col == 1 || col == 2) {
                     try {
                         URL picUrl = new URL(programList.get(row).getImg());
                         Image img = ImageIO.read(picUrl);
                         img = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
                         ImageIcon icon = new ImageIcon(img);
                         picture.setIcon(icon);
+                        picture.setVisible(true);
                         infoField.setText(programList.get(row).getDescription());
                         infoField.setVisible(true);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        picture.setVisible(false);
+                        System.out.println(e.getMessage());
                     }
                 }
 
@@ -122,7 +124,7 @@ public class Gui extends JFrame{
         addMouseListener();
 
         pane = new JScrollPane(table);
-        pane.setPreferredSize(new Dimension(1000, 450));
+        pane.setPreferredSize(new Dimension(1000, 550));
 
         return pane;
     }

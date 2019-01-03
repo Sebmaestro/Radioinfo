@@ -57,7 +57,7 @@ public class Parser {
 
     public List<Program> parseTableau(String url) {
         programList = new ArrayList<>();
-        System.out.println(url);
+        //System.out.println(url);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
@@ -72,24 +72,24 @@ public class Parser {
                 for (int j = 0; j < childs.getLength(); j++) {
                     if (childs.item(j).getNodeName().equals("title")) {
                         programList.add(new Program(childs.item(j).getTextContent()));
-                        System.out.println(childs.item(j).getTextContent());
+                        //System.out.println(childs.item(j).getTextContent());
                         //Sätt in i ny klass
                     }
                     if (childs.item(j).getNodeName().equals("description")) {
                         programList.get(i).setDescription(childs.item(j).getTextContent());
-                        System.out.println(childs.item(j).getTextContent());
+                        //System.out.println(childs.item(j).getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("starttimeutc")) {
                         programList.get(i).setStartTime(childs.item(j).getTextContent());
-                        System.out.println(childs.item(j).getTextContent());
+                        //System.out.println(childs.item(j).getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("endtimeutc")) {
                         programList.get(i).setEndTime(childs.item(j).getTextContent());
-                        System.out.println(childs.item(j).getTextContent());
+                        //System.out.println(childs.item(j).getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("imageurl")) {
                         programList.get(i).setImg(childs.item(j).getTextContent());
-                        System.out.println(childs.item(j).getTextContent());
+                        //System.out.println(childs.item(j).getTextContent());
                     }
                 }
             }
