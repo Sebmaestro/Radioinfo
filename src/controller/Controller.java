@@ -3,8 +3,8 @@ package controller;
 import model.*;
 import view.Gui;
 
+import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Controller {
@@ -21,11 +21,14 @@ public class Controller {
 
 
         for (int i = 0; i < channelList.size(); i++) {
-            setJMenuListener(channelList.get(i).getName());
+            setListenerForChannels(channelList.get(i).getName());
         }
+        setListenerForAuthor();
+        setListenerForHelp();
+        setListenerForUpdate();
 
 
-        //setJMenuListener("p1");
+        //setListenerForChannels("p1");
 
         //channelNames = setChannelNames();
     }
@@ -39,8 +42,33 @@ public class Controller {
         return channelNames;
     }
 
-    private void setJMenuListener(String channel) {
-        gui.addActionListener(e -> {
+    private void setListenerForUpdate() {
+
+    }
+
+    private void setListenerForAuthor() {
+        gui.addActionListenerForAuthor(e -> {
+            JOptionPane.showMessageDialog(null,
+                    "Made by Sebastian Arledal - c17sal");
+
+        });
+    }
+
+    private void setListenerForHelp() {
+        gui.addActionListenerForHelp(e -> {
+            JOptionPane.showMessageDialog(null,
+                    "This is a program that shows the desired tableau" +
+                            " for a chosen channel from SR"+"\n\n"+
+            "To choose a channel, simply click on it from the channels menu.\n" +
+                            "To Refresh the tableau, click the refresh button" +
+                            " in the update menu.\n"+"If you wish to get more" +
+                            " info about a program, simply click on the " +
+                            "program from the tableau");
+        });
+    }
+
+    private void setListenerForChannels(String channel) {
+        gui.addActionListenerForChannels(e -> {
             String id = null;
             for (int i = 0; i < channelList.size(); i++) {
                 if (channelList.get(i).getName().equals(channel)) {
@@ -69,7 +97,11 @@ public class Controller {
             ListSorter sorter = new ListSorter();
             List<Program> finalList = sorter.sort(time, yesterdaysDateList, currentDateList, tomorrowsDateList);
 
-            gui.modifyTable(finalList);
+            List<Program> pastPrograms = sorter.hasBeenBroadcasted(finalList, time);
+            List<Program> futurePrograms = sorter.willBeBroadcasted(finalList, time);
+            Program currentProgram = sorter.currentlyBroadcasting(finalList, time);
+
+            gui.modifyTable(finalList, pastPrograms, futurePrograms, currentProgram);
             gui.refreshGui();
 
         }, channel);

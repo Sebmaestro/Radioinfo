@@ -5,7 +5,9 @@ import model.Program;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -27,6 +29,10 @@ public class Gui extends JFrame{
     private JTextArea infoField;
 
     private List<Program> programList;
+
+    private JMenuItem updateData;
+    private JMenuItem author;
+    private JMenuItem help;
 
 
     public Gui(ArrayList<String> channelNames) {
@@ -64,9 +70,10 @@ public class Gui extends JFrame{
         extraInfoPanel.add(picture);
 
         infoField = new JTextArea();
+        infoField.setFont(infoField.getFont().deriveFont(16f));
         infoField.setEditable(false);
         infoField.setLineWrap(true);
-        infoField.setPreferredSize(new Dimension(950, 20));
+        infoField.setPreferredSize(new Dimension(950, 25));
         infoField.setVisible(false);
         extraInfoPanel.add(infoField);
 
@@ -113,14 +120,15 @@ public class Gui extends JFrame{
     }
 
     public JScrollPane buildTable() {
-        Object[] columnNames = {"Title", "Starttime", "Endtime"};
-        Object[][] data = new Object[100][3];
+        Object[] columnNames = {"Title", "Starttime", "Endtime", "Status"};
+        Object[][] data = new Object[channelNames.size()][4];
 
         model = new DefaultTableModel(data, columnNames);
 
         table = new JTable(model);
         table.getTableHeader().setReorderingAllowed(false);
         table.setEnabled(false);
+
         addMouseListener();
 
         pane = new JScrollPane(table);
@@ -129,47 +137,85 @@ public class Gui extends JFrame{
         return pane;
     }
 
-    public void modifyTable(List<Program> list) {
+    public void modifyTable(List<Program> allPrograms, List<Program> pastPrograms, List<Program> futurePrograms, Program currentProgram) {
 
-        programList = list;
+        int i;
+        programList = allPrograms;
         if (model != null) {
             model.setRowCount(0);
-            model.setRowCount(list.size());
+            model.setRowCount(allPrograms.size());
         }
 
-        for (int i = 0; i < list.size(); i++) {
-            model.setValueAt(list.get(i).getTitle(), i, 0);
-            model.setValueAt(list.get(i).getStartTime(), i, 1);
-            model.setValueAt(list.get(i).getEndTime(), i, 2);
-            model.fireTableDataChanged();
+        for (i = 0; i < allPrograms.size(); i++) {
+            model.setValueAt(allPrograms.get(i).getTitle(), i, 0);
+            model.setValueAt(allPrograms.get(i).getStartTime(), i, 1);
+            model.setValueAt(allPrograms.get(i).getEndTime(), i, 2);
+            //TableCellRenderer renderer = table.getDefaultRenderer(Object.class);
+            //model.fireTableDataChanged();
         }
+
+        for (i = 0; i < pastPrograms.size(); i++) {
+            //model.setValueAt(pastPrograms.get(i).getTitle(), i, 0);
+            //model.setValueAt(pastPrograms.get(i).getStartTime(), i, 1);
+            //model.setValueAt(pastPrograms.get(i).getEndTime(), i, 2);
+            model.setValueAt("Finished", i, 3);
+        }
+
+        model.setValueAt("Broadcasting", i, 3);
+
+        for (int j = i+1; j < futurePrograms.size()+i+1; j++) {
+            //model.setValueAt(futurePrograms.get(i).getTitle(), i, 0);
+            //model.setValueAt(futurePrograms.get(i).getStartTime(), i, 1);
+            //model.setValueAt(futurePrograms.get(i).getEndTime(), i, 2);
+            model.setValueAt("Coming up", j, 3);
+        }
+
+
+
+
         //tablePanel.updateUI();
     }
 
-/*
-    public void updatePanel(JScrollPane pane) {
-        tablePanel.removeAll();
-        tablePanel.add(pane);
-        tablePanel.updateUI();
-    }
-*/
     private JMenuBar buildMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         menuItems = new ArrayList<>();
 
         JMenu firstMenu = new JMenu("Channel List");
+        JMenu secondMenu = new JMenu("Update");
+        JMenu thirdMenu = new JMenu("About");
         for (int i = 0; i < channelNames.size(); i++) {
             JMenuItem item = new JMenuItem(channelNames.get(i));
             menuItems.add(item);
             firstMenu.add(item);
         }
+        updateData = new JMenuItem("Refresh");
+        author = new JMenuItem("Author");
+        help = new JMenuItem("Help");
+
+        secondMenu.add(updateData);
+        thirdMenu.add(author);
+        thirdMenu.add(help);
 
         menuBar.add(firstMenu);
+        menuBar.add(secondMenu);
+        menuBar.add(thirdMenu);
 
         return menuBar;
     }
 
-    public void addActionListener(ActionListener e, String channel) {
+    public void addActionListenerForUpdate(ActionListener e) {
+        updateData.addActionListener(e);
+    }
+
+    public void addActionListenerForAuthor(ActionListener e) {
+        author.addActionListener(e);
+    }
+
+    public void addActionListenerForHelp(ActionListener e) {
+        help.addActionListener(e);
+    }
+
+    public void addActionListenerForChannels(ActionListener e, String channel) {
         switch (channel) {
             case "P1":
                 menuItems.get(0).addActionListener(e);
