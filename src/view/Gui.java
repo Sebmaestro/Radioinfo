@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -51,6 +53,10 @@ public class Gui extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public void popupInfo(String s) {
+        JOptionPane.showMessageDialog(null, s);
     }
 
     public JPanel buildTablePanel(JScrollPane pane) {
@@ -95,11 +101,12 @@ public class Gui extends JFrame{
                 int row = table.rowAtPoint(evt.getPoint());
                 int col = table.columnAtPoint(evt.getPoint());
 
-                System.out.println(row);
-                System.out.println(col);
+                //System.out.println(row);
+                //System.out.println(col);
 
-                if (col == 0 || col == 1 || col == 2) {
+                if (col == 0 || col == 1 || col == 2 || col == 3) {
                     try {
+                        //infoField.setVisible(false);
                         URL picUrl = new URL(programList.get(row).getImg());
                         Image img = ImageIO.read(picUrl);
                         img = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
@@ -109,12 +116,19 @@ public class Gui extends JFrame{
                         infoField.setText(programList.get(row).getDescription());
                         infoField.setVisible(true);
                     } catch (IOException e) {
-                        picture.setVisible(false);
-                        System.out.println(e.getMessage());
+                        try {
+                            BufferedImage img = ImageIO.read(new File("src/resources/cross.jpg"));
+                            Image image = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                            ImageIcon icon = new ImageIcon(image);
+                            picture.setIcon(icon);
+                            infoField.setText(programList.get(row).getDescription());
+                            infoField.setVisible(true);
+                        } catch (IOException e1) {
+                            picture.setVisible(false);
+                            System.out.println("Could not find image");
+                        }
                     }
                 }
-
-
             }
         });
     }
