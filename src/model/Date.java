@@ -4,34 +4,38 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
-import java.util.Locale;
 
-public class TimeAndDate {
+/**
+ * Author: Sebastian Arledal c17sal
+ * 2019-01-06
+ *
+ * Class Date:
+ *
+ * Class to get times and dates
+ */
+public class Date {
 
+    /**
+     * Method getCurrentTime:
+     *
+     * Gets the current time
+     * @return currentTime - current time as LocalDateTime object
+     */
     public LocalDateTime getCurrentTime() {
-
-        //Calendar cal = Calendar.getInstance();
-        //cal.setTime(new SimpleDateFormat("HH:mm:ss").parse());
-        //cal.add(Calendar.DATE, 0);
-
-        //DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        //System.out.println("Time is = "+dateFormat.format(cal.getTime()));
-        //DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime currentTime = LocalDateTime.now();
         currentTime.format(dtf);
-        //currentTime
-        //Date date = new Date();
 
-
-        //return currentTime.truncatedTo(ChronoUnit.SECONDS);
         return currentTime;
-        //return new Date();
     }
 
+    /**
+     * Method getCurrentDate:
+     *
+     * Gets current date on format YYYY-MM-DD
+     * @return currentdate - todays date as string
+     */
     public String getCurrentDate() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 0);
@@ -41,6 +45,12 @@ public class TimeAndDate {
         return dateFormat.format(cal.getTime());
     }
 
+    /**
+     * Method getYesterdaysDate:
+     *
+     * Gets yesterdays date on format YYYY-MM-DD
+     * @return yesyerdaysdate - yesterdays date as string
+     */
     public String getYesterdaysDate() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
@@ -50,6 +60,12 @@ public class TimeAndDate {
         return dateFormat.format(cal.getTime());
     }
 
+    /**
+     * Method getTomorrowsDate
+     *
+     * Gets tomorrows date on format YYYY-MM-DD
+     * @return tomorrowsdate - tomorrows date as string
+     */
     public String getTomorrowsDate() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
