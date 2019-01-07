@@ -43,11 +43,13 @@ public class Controller {
         sorter = new ListSorter();
         radioParser = new RadioParser();
         date = new Date();
-        channelList = radioParser.parseChannels("http://api.sr.se/api/v2/channels");
+        channelList = radioParser.parseChannels("http://api.sr.se/api/v2/channels/?pagination=false");
         radioGui = new RadioGui(setChannelNames());
         Timer timer = new Timer(3600 * 1000, E -> queueUpdate());
         timer.start();
 
+
+        //radioGui.addActionListenerForChannels();
 
         for (Channel aChannelList : channelList) {
             setListenerForChannelButtons(aChannelList.getName());
@@ -229,9 +231,8 @@ public class Controller {
      */
     private void setListenerForChannelButtons(String channel) {
         radioGui.addActionListenerForChannels(e -> {
-            doUpdate();
             currentChannel = channel;
-
-        }, channel);
+            doUpdate();
+        });
     }
 }

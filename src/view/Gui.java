@@ -26,7 +26,7 @@ public interface Gui {
 
     void addActionListenerForHelp(ActionListener e);
 
-    void addActionListenerForChannels(ActionListener e, String channel);
+    void addActionListenerForChannels(ActionListener e);
 
 
 }
