@@ -43,11 +43,13 @@ public class Controller {
         sorter = new ListSorter();
         radioParser = new RadioParser();
         date = new Date();
-        channelList = radioParser.parseChannels("http://api.sr.se/api/v2/channels");
+        channelList = radioParser.parseChannels("http://api.sr.se/api/v2/channels/?pagination=false");
         radioGui = new RadioGui(setChannelNames());
         Timer timer = new Timer(3600 * 1000, E -> queueUpdate());
         timer.start();
 
+
+        //radioGui.addActionListenerForChannels();
 
         for (Channel aChannelList : channelList) {
             setListenerForChannelButtons(aChannelList.getName());
@@ -146,7 +148,7 @@ public class Controller {
 
 
         finalList = sorter.sort(time, yesterdaysDateList, currentDateList,
-                                tomorrowsDateList);
+                tomorrowsDateList);
         pastPrograms = sorter.hasBeenBroadcasted(finalList, time);
         futurePrograms = sorter.willBeBroadcasted(finalList, time);
     }
@@ -211,13 +213,13 @@ public class Controller {
         radioGui.addActionListenerForHelp(e ->
                 radioGui.popupInfo("This is a program that shows the desired " +
                         "tableau"+ " for a chosen channel from SR"+"\n\n"+
-                "To choose a channel, simply click on it from the " +
-                "channels menu.\n" +
-                "To Refresh the tableau, click the refresh button" +
-                " in the update menu.\n"+"If you wish to get more" +
-                " info about a program, simply click on the " +
-                "program from the tableau\n"+"The tableau will update" +
-                " by itself every hour"));
+                        "To choose a channel, simply click on it from the " +
+                        "channels menu.\n" +
+                        "To Refresh the tableau, click the refresh button" +
+                        " in the update menu.\n"+"If you wish to get more" +
+                        " info about a program, simply click on the " +
+                        "program from the tableau\n"+"The tableau will update" +
+                        " by itself every hour"));
     }
 
     /**
@@ -229,9 +231,8 @@ public class Controller {
      */
     private void setListenerForChannelButtons(String channel) {
         radioGui.addActionListenerForChannels(e -> {
-            doUpdate();
             currentChannel = channel;
-
-        }, channel);
+            doUpdate();
+        });
     }
 }

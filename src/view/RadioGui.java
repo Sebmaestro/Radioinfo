@@ -8,7 +8,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,6 +39,8 @@ public class RadioGui extends JFrame implements Gui{
     private JMenuItem author;
     private JMenuItem help;
 
+    private int menuitem;
+
     /**
      * Constructor:
      *
@@ -48,6 +49,8 @@ public class RadioGui extends JFrame implements Gui{
      */
     public RadioGui(ArrayList<String> channelNames) {
         super();
+
+        menuitem = 0;
 
         this.channelNames = channelNames;
 
@@ -107,8 +110,10 @@ public class RadioGui extends JFrame implements Gui{
         infoField.setFont(infoField.getFont().deriveFont(16f));
         infoField.setEditable(false);
         infoField.setLineWrap(true);
-        infoField.setPreferredSize(new Dimension(950, 25));
+        infoField.setPreferredSize(new Dimension(600, 100));
+        infoField.setWrapStyleWord(true);
         infoField.setVisible(false);
+        infoField.setBackground(extraInfoPanel.getBackground());
         extraInfoPanel.add(infoField);
 
         return extraInfoPanel;
@@ -136,6 +141,7 @@ public class RadioGui extends JFrame implements Gui{
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                infoField.setText(null);
                 int row = table.rowAtPoint(evt.getPoint());
                 try {
                     URL picUrl = new URL(programList.get(row).getImg());
@@ -145,17 +151,22 @@ public class RadioGui extends JFrame implements Gui{
                     ImageIcon icon = new ImageIcon(img);
                     picture.setIcon(icon);
                     picture.setVisible(true);
-                    infoField.setText(programList.get(row).getDescription());
+                    infoField.append("Title: ");
+                    infoField.append(programList.get(row).getTitle());
+                    infoField.append("\n\n");
+                    infoField.append(programList.get(row).getDescription());
                     infoField.setVisible(true);
                 } catch (IOException e) {
                     try {
-                        BufferedImage img = ImageIO.read(new File(
-                                "resources/cross.jpg"));
+                        BufferedImage img = ImageIO.read(RadioGui.class.getResourceAsStream("/cross.jpg"));
                         Image image = img.getScaledInstance(100,
                                 100, Image.SCALE_SMOOTH);
                         ImageIcon icon = new ImageIcon(image);
                         picture.setIcon(icon);
-                        infoField.setText(programList.get(row).getDescription());
+                        infoField.append("Title: ");
+                        infoField.append(programList.get(row).getTitle());
+                        infoField.append("\n\n");
+                        infoField.append(programList.get(row).getDescription());
                         infoField.setVisible(true);
                     } catch (IOException e1) {
                         picture.setVisible(false);
@@ -183,6 +194,7 @@ public class RadioGui extends JFrame implements Gui{
         table.setDefaultRenderer(Object.class, new CustomCellRenderer());
         table.getTableHeader().setReorderingAllowed(false);
         table.setEnabled(false);
+        model.setRowCount(0);
 
         addMouseListener();
 
@@ -209,6 +221,7 @@ public class RadioGui extends JFrame implements Gui{
 
         //Reset model each time
         if (model != null) {
+
             model.setRowCount(0);
             model.setRowCount(allPrograms.size());
         }
@@ -258,6 +271,7 @@ public class RadioGui extends JFrame implements Gui{
 
         for (String channelName : channelNames) {
             JMenuItem item = new JMenuItem(channelName);
+            item.setPreferredSize(new Dimension(150, 17));
             menuItems.add(item);
             firstMenu.add(item);
         }
@@ -312,9 +326,16 @@ public class RadioGui extends JFrame implements Gui{
      *
      * Adds actionlisteners to a channel button
      * @param e - actionlistener
-     * @param channel - channelbutton to add listener to
      */
-    public void addActionListenerForChannels(ActionListener e, String channel) {
+    public void addActionListenerForChannels(ActionListener e) {
+        menuItems.get(menuitem).addActionListener(e);
+        menuitem++;
+        /*
+        for (JMenuItem m:menuItems) {
+            m.addActionListener(e);
+        }
+        */
+        /*
         switch (channel) {
             case "P1":
                 menuItems.get(0).addActionListener(e);
@@ -350,5 +371,6 @@ public class RadioGui extends JFrame implements Gui{
                 System.out.println();
                 break;
         }
+        */
     }
 }
