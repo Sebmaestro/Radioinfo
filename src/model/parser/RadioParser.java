@@ -60,10 +60,12 @@ public class RadioParser implements Parser {
                 //Add description and picture to object
                 for (int j = 0; j < childs.getLength(); j++) {
                     if (childs.item(j).getNodeName().equals("tagline")) {
-                        this.channelList.get(i).setDescription(childs.item(j).getTextContent());
+                        this.channelList.get(i).setDescription(childs.item(j).
+                                getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("image")) {
-                        this.channelList.get(i).setPicture(childs.item(j).getTextContent());
+                        this.channelList.get(i).setPicture(childs.item(j).
+                                getTextContent());
                     }
                 }
             }
@@ -88,26 +90,32 @@ public class RadioParser implements Parser {
         try {
             builder = factory.newDocumentBuilder();
             Document doc = builder.parse(new URL(url).openStream());
-            NodeList scheduledEpisodesList = doc.getElementsByTagName("scheduledepisode");
+            NodeList scheduledEpisodesList =
+                    doc.getElementsByTagName("scheduledepisode");
 
             for (int i = 0; i < scheduledEpisodesList.getLength(); i++) {
                 NodeList childs = scheduledEpisodesList.item(i).getChildNodes();
 
                 for (int j = 0; j < childs.getLength(); j++) {
                     if (childs.item(j).getNodeName().equals("title")) {
-                        programList.add(new Program(childs.item(j).getTextContent()));
+                        programList.add(
+                                new Program(childs.item(j).getTextContent()));
                     }
                     if (childs.item(j).getNodeName().equals("description")) {
-                        programList.get(i).setDescription(childs.item(j).getTextContent());
+                        programList.get(i).
+                                setDescription(childs.item(j).getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("starttimeutc")) {
-                        programList.get(i).setStartTime(childs.item(j).getTextContent());
+                        programList.get(i).
+                                setStartTime(childs.item(j).getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("endtimeutc")) {
-                        programList.get(i).setEndTime(childs.item(j).getTextContent());
+                        programList.get(i).
+                                setEndTime(childs.item(j).getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("imageurl")) {
-                        programList.get(i).setImg(childs.item(j).getTextContent());
+                        programList.get(i).
+                                setImg(childs.item(j).getTextContent());
                     }
                 }
             }

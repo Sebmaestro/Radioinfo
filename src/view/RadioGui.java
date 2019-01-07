@@ -88,7 +88,6 @@ public class RadioGui extends JFrame implements Gui{
         tablePanel = new JPanel();
         tablePanel.add(pane);
 
-
         return tablePanel;
     }
 
@@ -158,7 +157,8 @@ public class RadioGui extends JFrame implements Gui{
                     infoField.setVisible(true);
                 } catch (IOException e) {
                     try {
-                        BufferedImage img = ImageIO.read(RadioGui.class.getResourceAsStream("/cross.jpg"));
+                        BufferedImage img = ImageIO.read(RadioGui.class.
+                                getResourceAsStream("/cross.jpg"));
                         Image image = img.getScaledInstance(100,
                                 100, Image.SCALE_SMOOTH);
                         ImageIcon icon = new ImageIcon(image);
@@ -330,47 +330,5 @@ public class RadioGui extends JFrame implements Gui{
     public void addActionListenerForChannels(ActionListener e) {
         menuItems.get(menuitem).addActionListener(e);
         menuitem++;
-        /*
-        for (JMenuItem m:menuItems) {
-            m.addActionListener(e);
-        }
-        */
-        /*
-        switch (channel) {
-            case "P1":
-                menuItems.get(0).addActionListener(e);
-                break;
-            case "P2":
-                menuItems.get(1).addActionListener(e);
-                break;
-            case "P3":
-                menuItems.get(2).addActionListener(e);
-                break;
-            case "P4 Blekinge":
-                menuItems.get(3).addActionListener(e);
-                break;
-            case "P4 Dalarna":
-                menuItems.get(4).addActionListener(e);
-                break;
-            case "P4 Gotland":
-                menuItems.get(5).addActionListener(e);
-                break;
-            case "P4 Gävleborg":
-                menuItems.get(6).addActionListener(e);
-                break;
-            case "P4 Göteborg":
-                menuItems.get(7).addActionListener(e);
-                break;
-            case "P4 Halland":
-                menuItems.get(8).addActionListener(e);
-                break;
-            case "P4 Jämtland":
-                menuItems.get(9).addActionListener(e);
-                break;
-            default:
-                System.out.println();
-                break;
-        }
-        */
     }
 }

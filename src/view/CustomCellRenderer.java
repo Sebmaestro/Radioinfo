@@ -26,9 +26,13 @@ public class CustomCellRenderer extends DefaultTableCellRenderer {
      * @param col - current col
      * @return c - the component
      */
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+    public Component getTableCellRendererComponent(JTable table, Object value,
+                                                   boolean isSelected,
+                                                   boolean hasFocus,
+                                                   int row, int col) {
 
-        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+        Component c = super.getTableCellRendererComponent(table, value,
+                isSelected, hasFocus, row, col);
         Object o = table.getModel().getValueAt(row, 3);
 
         c.setForeground(Color.black);

@@ -23,7 +23,8 @@ public class Date {
      * @return currentTime - current time as LocalDateTime object
      */
     public LocalDateTime getCurrentTime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(
+                "yyyy-MM-dd HH:mm:ss");
         LocalDateTime currentTime = LocalDateTime.now();
         currentTime.format(dtf);
 

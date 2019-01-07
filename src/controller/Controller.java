@@ -33,6 +33,8 @@ public class Controller {
     private List<Program> futurePrograms;
     private List<Program> finalList;
 
+    private boolean safeToUpdate = false;
+
     /**
      * Constructor:
      *
@@ -43,7 +45,8 @@ public class Controller {
         sorter = new ListSorter();
         radioParser = new RadioParser();
         date = new Date();
-        channelList = radioParser.parseChannels("http://api.sr.se/api/v2/channels/?pagination=false");
+        channelList = radioParser.parseChannels(
+                "http://api.sr.se/api/v2/channels/?pagination=false");
         radioGui = new RadioGui(setChannelNames());
         Timer timer = new Timer(3600 * 1000, E -> queueUpdate());
         timer.start();
@@ -151,6 +154,8 @@ public class Controller {
                 tomorrowsDateList);
         pastPrograms = sorter.hasBeenBroadcasted(finalList, time);
         futurePrograms = sorter.willBeBroadcasted(finalList, time);
+
+        safeToUpdate = true;
     }
 
     /**
@@ -187,8 +192,10 @@ public class Controller {
      */
     private void setListenerForUpdateButton() {
         radioGui.addActionListenerForUpdate(e -> {
-            doUpdate();
-            radioGui.popupInfo("Refreshed!");
+            if (safeToUpdate) {
+                doUpdate();
+                radioGui.popupInfo("Refreshed!");
+            }
         });
     }
 
@@ -211,8 +218,8 @@ public class Controller {
      */
     private void setListenerForHelpButton() {
         radioGui.addActionListenerForHelp(e ->
-                radioGui.popupInfo("This is a program that shows the desired " +
-                        "tableau"+ " for a chosen channel from SR"+"\n\n"+
+                radioGui.popupInfo("This is a program that shows the desired "
+                        + "tableau"+ " for a chosen channel from SR"+"\n\n"+
                         "To choose a channel, simply click on it from the " +
                         "channels menu.\n" +
                         "To Refresh the tableau, click the refresh button" +
