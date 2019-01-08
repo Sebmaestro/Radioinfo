@@ -271,7 +271,7 @@ public class RadioGui extends JFrame implements Gui{
 
         for (String channelName : channelNames) {
             JMenuItem item = new JMenuItem(channelName);
-            item.setPreferredSize(new Dimension(150, 15));
+            item.setPreferredSize(new Dimension(200, 14));
             menuItems.add(item);
             firstMenu.add(item);
         }
