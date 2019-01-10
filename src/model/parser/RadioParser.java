@@ -106,12 +106,12 @@ public class RadioParser implements Parser {
                                 setDescription(childs.item(j).getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("starttimeutc")) {
-                        programList.get(i).
-                                setStartTime(childs.item(j).getTextContent());
+                        programList.get(i).setStartTime(childs.item(j).
+                                getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("endtimeutc")) {
-                        programList.get(i).
-                                setEndTime(childs.item(j).getTextContent());
+                        programList.get(i).setEndTime(childs.item(j).
+                                getTextContent());
                     }
                     if (childs.item(j).getNodeName().equals("imageurl")) {
                         programList.get(i).

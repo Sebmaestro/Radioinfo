@@ -1,5 +1,10 @@
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Author: Sebastian Arledal c17sal
  * 2019-01-06
@@ -43,9 +48,21 @@ public class Program {
      * @param startTime - the start time
      */
     public void setStartTime(String startTime) {
+
         startTime = startTime.replaceAll("T", " ");
         startTime = startTime.replaceAll("Z", "");
-        this.startTime = startTime;
+
+        //Add one hour to the program
+        SimpleDateFormat sdf = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            Date date = sdf.parse(startTime);
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+1"));
+            this.startTime = sdf.format(date);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -57,7 +74,18 @@ public class Program {
     public void setEndTime(String endTime) {
         endTime = endTime.replaceAll("T", " ");
         endTime = endTime.replaceAll("Z", "");
-        this.endTime = endTime;
+
+        //Add one hour to the program
+        SimpleDateFormat sdf = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            Date date = sdf.parse(endTime);
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+1"));
+            this.endTime = sdf.format(date);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**

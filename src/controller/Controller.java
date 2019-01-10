@@ -44,15 +44,11 @@ public class Controller {
     public Controller() {
         sorter = new ListSorter();
         radioParser = new RadioParser();
-        date = new Date();
         channelList = radioParser.parseChannels(
                 "http://api.sr.se/api/v2/channels/?pagination=false");
         radioGui = new RadioGui(setChannelNames());
         Timer timer = new Timer(3600 * 1000, E -> queueUpdate());
         timer.start();
-
-
-        //radioGui.addActionListenerForChannels();
 
         for (Channel aChannelList : channelList) {
             setListenerForChannelButtons(aChannelList.getName());
@@ -129,6 +125,7 @@ public class Controller {
             }
         }
 
+        date = new Date();
         String yesterdaysDate = date.getYesterdaysDate();
         String todaysDate = date.getCurrentDate();
         String tomorrowsDate = date.getTomorrowsDate();
